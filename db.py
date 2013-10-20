@@ -4,14 +4,15 @@ from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import *
 import os
 
-SyllableCacheBase = declarative_base()
+WordBase = declarative_base()
 PlaceBase = declarative_base()
 ReviewBase = declarative_base()
 
-class SyllableCache(SyllableCacheBase):
-	__tablename__ = "syllable_cache"
+class Word(WordBase):
+	__tablename__ = "word"
 	word = Column(String(128), primary_key=True)
 	syllables = Column(Integer)
+	frequency = Column(Float)
 
 class Place(PlaceBase):
 	__tablename__ = "place"
@@ -37,8 +38,9 @@ def dbsetup(name, base):
 	session = sessionmaker(bind=engine)
 	return session()
 
-def init_syllable_cache():
-	return dbsetup("syllable_cache", SyllableCacheBase)
+#TODO This seems redundant. Use locals[] with a rewrite for the class name?
+def init_word():
+	return dbsetup("word", WordBase)
 
 def init_place():
 	return dbsetup("place", PlaceBase)
@@ -49,7 +51,7 @@ def init_review():
 if __name__ == "__main__":
 
 	commands = [ 'init' ]
-	tablenames = [ 'syllable_cache', 'place', 'review' ]
+	tablenames = [ 'word', 'place', 'review' ]
 
 	def CLIformat(l):
 		s = '['
@@ -57,18 +59,19 @@ if __name__ == "__main__":
 			s += str(x)
 			s += '|'
 		return s[:-1]+']'
-
+	
 	import sys
 	if len(sys.argv) < 2:
 		print "Usage: %s %s %s" % (sys.argv[0], CLIformat(commands), CLIformat(tablenames))
 		exit(1)
-
+	
 	command = sys.argv[1].strip()
 	tablename = sys.argv[2].strip()
-
+	
 	if command in commands:
-		if not tablename in tablenames:
+		if tablename in tablenames:
+			globals()["%s_%s" % (command, tablename)]()
+		else:
 			raise Exception("Unknown table: %s" % tablename)
-		globals()["%s_%s" % (command, tablename)]()
 	else:
 		raise Exception("Unknown command: %s" % command)
