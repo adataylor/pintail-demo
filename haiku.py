@@ -3,6 +3,8 @@ from curses.ascii import isdigit
 import nltk
 from nltk.corpus import cmudict
 
+from operator import itemgetter
+
 from collections import defaultdict
 
 def makeFreqDict():
@@ -29,6 +31,8 @@ def getMyText():
 	#return "this is a neat pretty test sequence"
 	total = total.strip("\n")
 	total = total.strip(",")
+	total = total.strip(".")
+	total = total.strip(";")
 
 	return total
 
@@ -66,8 +70,8 @@ def makeHaiku():
 	text = getMyText()
 	syl_count = 0
 
-	#options7 = []
-	#options5 = []
+	options7 = []
+	options5 = []
 
 	line5_1 = ("", 1)
 	line7 = ("", 1)
@@ -103,21 +107,9 @@ def makeHaiku():
 		if sum([pair[1] for pair in lump5]) == 5:
 			phraseString = ' '.join([pair[0] for pair in lump5])
 			print phraseString
-
 			phraseValue = getRarityAvg([pair[2] for pair in lump5])
-			if phraseValue < line5_1[1] or phraseValue < line5_2[1]:
-				newline = (phraseString, phraseValue)
-
-				if line5_1[1] < line5_2[1]:
-					if newline[1] < line5_2[1]:
-						line5_2 = newline
-					elif newline[1] < line5_1[1]:
-						line5_1 = newline
-				if line5_2[1] < line5_1[1]:
-					if newline[1] < line5_1[1]:
-						line5_1 = newline
-					elif newline[1] < line5_2[1]:
-						line5_2 = newline
+			newline = (phraseString, phraseValue)
+			options5.append(newline)
 
 
 
@@ -125,15 +117,17 @@ def makeHaiku():
 			phraseString = ' '.join([pair[0] for pair in lump7])
 			print phraseString
 			phraseValue = getRarityAvg([pair[2] for pair in lump7])
-			if phraseValue > line7[1]:
-				line7 = (phraseString, phraseValue)
+			newline = (phraseString, phraseValue)
+			options7.append(newline)
 	
-		
-		print "Haiku So Far:"
-		print line5_1[0]
-		print line7[0]
-		print line5_2[0]
+	print "found all options"
+	options7 = sorted(options7,key=itemgetter(1))
+	options5 = sorted(options5,key=itemgetter(1))
 
+	print "Final Haiku"
+	print options5[0]
+	print options7[0]
+	print options5[1]
 
 makeHaiku()
 
