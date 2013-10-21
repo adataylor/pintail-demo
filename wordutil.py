@@ -24,8 +24,12 @@ def __part_of_speech__( word ):
 	tagged_sent = nltk.pos_tag([word])
 	return simplify_wsj_tag(tagged_sent[0][1])
 
+no_syllables_data = set()
+
 def syllables( word ):
 	word = word.lower()
+	if word in no_syllables_data:
+		raise Exception("Couldn't find syllables count for "+word)
 	db = init_word()
 	w = db.query(Word).get(word)
 	if w and w.syllables:
@@ -35,7 +39,11 @@ def syllables( word ):
 		w = Word()
 		w.word = word
 		db.add(w)
-	w.syllables = __syllables__(word)
+	try:
+		w.syllables = __syllables__(word)
+	except:
+		no_syllables_data.add(word)
+		raise Exception("Couldn't find syllables count for "+word)
 	db.commit()
 	return w.syllables
 

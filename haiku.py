@@ -1,7 +1,7 @@
 from collections import defaultdict
 from wordutil import syllables, frequency
 
-from text import getMyText #TODO Lots to be done here?
+from text import * #TODO Lots to be done here? Use actual reviews?
 
 def total_syllables( chunk ):
 	try:
@@ -24,30 +24,29 @@ def chunks( sentances, num_syllables ):
 				if chunk_syllables == num_syllables:
 					yield chunk
 
+valid = valid_tags()
 def print_poem( lines ):
 	for line in lines:
 		for word in line:
 			print word,
-		print ''
+		print tag(line)
+		print tag(line) in valid
 
 sentances = getMyText()
 
-from itertools import islice
+from itertools import islice, ifilter
 from random import choice
 
 #TODO: Weight on avg_frequency?
-#TODO: Limit to valid tagsets?
+haiku_lines = lambda n_syl: ifilter( lambda chunk: tag( chunk ) in valid, chunks( sentances, n_syl ) )
 
 print "Making 5-syllable chunks..."
-chunks5 = list( islice( chunks( sentances, 5 ), 100 ) )
+chunks5 = list( islice( haiku_lines( 5 ), 10 ) )
+print chunks5
 print "Making 7-syllable chunks..."
-chunks7 = list( islice( chunks( sentances, 7 ), 100 ) )
+chunks7 = list( islice( haiku_lines( 7 ), 10 ) )
 
 for i in range(50):
 	print "---"
 	print_poem([ choice(chunks5), choice(chunks7), choice(chunks5) ])
-
-
-
-
 
