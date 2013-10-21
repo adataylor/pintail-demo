@@ -52,8 +52,4 @@ def frequency( word ):
 		db.add(w)
 	w.frequency = __frequency__(word)
 	db.commit()
-	return w.frequency
-
-print syllables( 'testing' )
-print frequency( 'patter' )
-	
+	return w.frequency	
