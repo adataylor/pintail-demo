@@ -16,13 +16,13 @@ class Word(WordBase):
 
 class Place(PlaceBase):
 	__tablename__ = "place"
-	id = Column(Integer, primary_key=True)
+	id = Column(Integer, primary_key=True) #TODO: We need to delegate this to the table itself.
 	name = Column(String(128), nullable=False, default="I need a name!")
 	# TODO: Other place based info, such a location, city, etc?
 
 class Review(ReviewBase):
 	__tablename__ = "review"
-	id = Column(Integer, primary_key=True)
+	id = Column(Integer, primary_key=True) #TODO: We need to delegate this to the table itself.
 	placeid = Column(Integer)
 	review = Column(String(5000), nullable=False, default="")
 

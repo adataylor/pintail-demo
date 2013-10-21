@@ -22,6 +22,7 @@ def chunks( sentances, num_syllables ):
 				if chunk_syllables > num_syllables or chunk_syllables < 0:
 					break
 				if chunk_syllables == num_syllables:
+					print "Found:", chunk
 					yield chunk
 
 valid = valid_tags()

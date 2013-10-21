@@ -43,6 +43,7 @@ def syllables( word ):
 		w.syllables = __syllables__(word)
 	except:
 		no_syllables_data.add(word)
+		print "Lookup for", word, "failed."
 		raise Exception("Couldn't find syllables count for "+word)
 	db.commit()
 	return w.syllables

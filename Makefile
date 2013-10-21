@@ -15,6 +15,7 @@ init-db:
 
 populate-db:
 	python frequency_populate.py
+	python review_populate.py
 
 # Remove all runtime based information.
 # Should return the repo to a "source-only" state.
