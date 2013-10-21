@@ -22,7 +22,6 @@ def chunks( sentances, num_syllables ):
 				if chunk_syllables > num_syllables or chunk_syllables < 0:
 					break
 				if chunk_syllables == num_syllables:
-					print "Found:", chunk
 					yield chunk
 
 valid = valid_tags()
@@ -41,13 +40,20 @@ from random import choice
 #TODO: Weight on avg_frequency?
 haiku_lines = lambda n_syl: ifilter( lambda chunk: tag( chunk ) in valid, chunks( sentances, n_syl ) )
 
+print "Making 3-syllable chunks..."
+chunks3 = list( islice( haiku_lines( 3 ), 10 ) )
+print chunks3
+print "Making 4-syllable chunks..."
+chunks4 = list( islice( haiku_lines( 4 ), 10 ) )
+print chunks4
 print "Making 5-syllable chunks..."
 chunks5 = list( islice( haiku_lines( 5 ), 10 ) )
 print chunks5
-print "Making 7-syllable chunks..."
-chunks7 = list( islice( haiku_lines( 7 ), 10 ) )
+#print "Making 7-syllable chunks..."
+#chunks7 = list( islice( haiku_lines( 7 ), 10 ) )
+#print chunks7
 
 for i in range(50):
 	print "---"
-	print_poem([ choice(chunks5), choice(chunks7), choice(chunks5) ])
+	print_poem([ choice(chunks5), choice(chunks3) + [","] + choice(chunks4), choice(chunks5) ])
 
