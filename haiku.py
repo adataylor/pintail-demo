@@ -48,8 +48,8 @@ def getRarity(word):
 
 	#Longer words are better, on approx same scale
 	if rarity == 0:
-		return 1
-		#return 2.0/len(word)
+		#return 1
+		return 2.0/len(word)
 	return rarity
 
 def getSyllables(word):
