@@ -29,10 +29,10 @@ def getMyText():
 	    for line in inputfile:
 	        total += line
 	#return "this is a neat pretty test sequence"
-	total = total.strip("\n")
-	total = total.strip(",")
-	total = total.strip(".")
-	total = total.strip(";")
+	total = total.replace("\n", " ")
+	total = total.replace(",", " ")
+	total = total.replace(".", " ")
+	total = total.replace(";", " ")
 
 	return total
 
@@ -48,15 +48,18 @@ def getRarity(word):
 
 	#Longer words are better, on approx same scale
 	if rarity == 0:
-		return 2.0/len(word)
+		return 1
+		#return 2.0/len(word)
 	return rarity
 
 def getSyllables(word):
 	d = cmudict.dict()
 	if word == "":
 		return 0
-
-	return [len(list(y for y in x if isdigit(y[-1]))) for x in d[word.lower()]][0]
+	try:
+		return [len(list(y for y in x if isdigit(y[-1]))) for x in d[word.lower()]][0]
+	except Exception, e:
+		return 7
 
 def getRarityAvg(rarityList):
 	#print rarityList
