@@ -16,7 +16,7 @@ def parse_rvw( review ):
 		}
 
 os.chdir("data/reviews")
-db = init_review()
+db = init('review')
 
 i = 0
 for review in glob.glob("*.rvw"):

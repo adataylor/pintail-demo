@@ -7,6 +7,7 @@ import os
 WordBase = declarative_base()
 PlaceBase = declarative_base()
 ReviewBase = declarative_base()
+ReviewerBase = declarative_base()
 
 class Word(WordBase):
 	__tablename__ = "word"
@@ -24,7 +25,13 @@ class Review(ReviewBase):
 	__tablename__ = "review"
 	id = Column(Integer, primary_key=True) #TODO: We need to delegate this to the table itself.
 	placeid = Column(Integer)
+	reviewerid = Column(Integer)
 	review = Column(String(5000), nullable=False, default="")
+
+class Reviewer(ReviewerBase):
+	__tablename__ = "reviewer"
+	id = Column(Integer, primary_key=True) #TODO: We need to delegate this to the table itself.
+	username = Column(String(128), default="<no username provided>")
 
 def dbsetup(name, base):
 	thisdir = os.path.dirname(os.path.abspath(__file__))
@@ -38,20 +45,13 @@ def dbsetup(name, base):
 	session = sessionmaker(bind=engine)
 	return session()
 
-#TODO This seems redundant. Use locals[] with a rewrite for the class name?
-def init_word():
-	return dbsetup("word", WordBase)
-
-def init_place():
-	return dbsetup("place", PlaceBase)
-
-def init_review():
-	return dbsetup("review", ReviewBase)
+def init( tablename ):
+	return dbsetup( tablename, globals()[tablename.title() + "Base"] )
 
 if __name__ == "__main__":
 
 	commands = [ 'init' ]
-	tablenames = [ 'word', 'place', 'review' ]
+	tablenames = [ 'word', 'place', 'review', 'reviewer' ]
 
 	def CLIformat(l):
 		s = '['
@@ -61,7 +61,7 @@ if __name__ == "__main__":
 		return s[:-1]+']'
 	
 	import sys
-	if len(sys.argv) < 2:
+	if len(sys.argv) != 3:
 		print "Usage: %s %s %s" % (sys.argv[0], CLIformat(commands), CLIformat(tablenames))
 		exit(1)
 	
@@ -70,7 +70,7 @@ if __name__ == "__main__":
 	
 	if command in commands:
 		if tablename in tablenames:
-			globals()["%s_%s" % (command, tablename)]()
+			globals()[command](tablename)
 		else:
 			raise Exception("Unknown table: %s" % tablename)
 	else:

@@ -3,7 +3,7 @@ import nltk
 from nltk.corpus import cmudict
 from nltk.tag.simplify import simplify_wsj_tag
 
-from db import init_word
+from db import init
 from db import Word
 
 def __syllables__(word):
@@ -30,7 +30,7 @@ def syllables( word ):
 	word = word.lower()
 	if word in no_syllables_data:
 		raise Exception("Couldn't find syllables count for "+word)
-	db = init_word()
+	db = init('word')
 	w = db.query(Word).get(word)
 	if w and w.syllables:
 		return w.syllables
@@ -50,7 +50,7 @@ def syllables( word ):
 
 def frequency( word ):
 	word = word.lower()
-	db = init_word()
+	db = init('word')
 	w = db.query(Word).get(word)
 	if w and w.frequency:
 		return w.frequency

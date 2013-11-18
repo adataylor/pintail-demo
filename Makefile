@@ -12,6 +12,7 @@ init-db:
 	python db.py init word
 	python db.py init place
 	python db.py init review
+	python db.py init reviewer
 
 populate-db:
 	python frequency_populate.py

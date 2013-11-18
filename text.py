@@ -25,7 +25,7 @@ def sentify( text ):
 
 def getMyText():
 	sents = []
-	db = init_review()
+	db = init('review')
 	for row in db.query(Review).filter(Review.placeid==0):
 		print row.review
 		sents.extend( sentify( row.review ) )

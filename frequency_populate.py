@@ -1,11 +1,11 @@
 #!/usr/bin/python
-from db import init_word, Word
+from db import init, Word
 
 # Used to generate freqs.csv (clumsy, but functional).
 # cat original_wordfreq.txt | awk -F',' '{print $2","$4}' | grep ".*,..*" | awk -F',' '{print $1","$2/3.29795e+08}' > ../populate/freqs.csv
 
 with open('data/freqs.csv') as inputfile:
-	db = init_word()
+	db = init('word')
 	for line in inputfile:
 		word, frequency = line.strip().split(',')
 		word = word.lower()
