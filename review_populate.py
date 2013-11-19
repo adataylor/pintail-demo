@@ -1,11 +1,11 @@
 #!/usr/bin/python
-from db import *
 import glob
 import os
-
 from lxml import etree
 
-def parse_rvw( review ):
+import reviews
+
+def parse_review( review ):
 	doc = etree.parse( review )
 	return {
 		'location': doc.find('location').text,
@@ -16,16 +16,10 @@ def parse_rvw( review ):
 		}
 
 os.chdir("data/reviews")
-db = init('review')
-
-i = 0
 for review in glob.glob("*.rvw"):
-	print "Adding ",review
-	raw = parse_rvw( review )
-	rev = Review()
-	rev.placeid = 0
-	rev.id = i
-	i += 1
-	rev.review = raw['text']
-	db.add(rev)
-db.commit()
+	raw = parse_review( review )
+	reviews.add( raw['text'], raw['location'], raw['rating'], "UNKNOWN" )
+os.chdir("../..")
+
+import trip_advisor_scraper
+import yelp_importer

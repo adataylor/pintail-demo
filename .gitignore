@@ -6,6 +6,10 @@
 # this with make, even if all does not target it).
 db/*
 
+
+# Files too large to upload to github (don't make a habit...)
+data/yelp/academic_dataset.json
+
 # Temp files.
 *~
 *.save
