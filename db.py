@@ -11,26 +11,26 @@ ReviewerBase = declarative_base()
 
 class Word(WordBase):
 	__tablename__ = "word"
-	word = Column(String(128), primary_key=True)
+	word = Column(String(128), primary_key=True, autoincrement=True)
 	syllables = Column(Integer)
 	frequency = Column(Float)
 
 class Place(PlaceBase):
 	__tablename__ = "place"
-	id = Column(Integer, primary_key=True) #TODO: We need to delegate this to the table itself.
+	id = Column(Integer, primary_key=True, autoincrement=True) #TODO: We need to delegate this to the table itself.
 	name = Column(String(128), nullable=False, default="I need a name!")
 	# TODO: Other place based info, such a location, city, etc?
 
 class Review(ReviewBase):
 	__tablename__ = "review"
-	id = Column(Integer, primary_key=True) #TODO: We need to delegate this to the table itself.
+	id = Column(Integer, primary_key=True, autoincrement=True) #TODO: We need to delegate this to the table itself.
 	placeid = Column(Integer)
 	reviewerid = Column(Integer)
 	review = Column(String(5000), nullable=False, default="")
 
 class Reviewer(ReviewerBase):
 	__tablename__ = "reviewer"
-	id = Column(Integer, primary_key=True) #TODO: We need to delegate this to the table itself.
+	id = Column(Integer, primary_key=True, autoincrement=True) #TODO: We need to delegate this to the table itself.
 	username = Column(String(128), default="<no username provided>")
 
 def dbsetup(name, base):

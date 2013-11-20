@@ -14,7 +14,7 @@ def import_json_file( filename ):
 	
 import_json_file('data/yelp/users.json')
 import_json_file('data/yelp/businesses.json')
-import_json_file('data/yelp/reviews.1.json')
-import_json_file('data/yelp/reviews.2.json')
-import_json_file('data/yelp/reviews.3.json')
+# import_json_file('data/yelp/reviews.1.json')
+# import_json_file('data/yelp/reviews.2.json')
+# import_json_file('data/yelp/reviews.3.json')
 import_json_file('data/yelp/reviews.4.json')
